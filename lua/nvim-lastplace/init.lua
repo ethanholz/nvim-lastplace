@@ -19,12 +19,12 @@ local function lastplace_func()
 	-- Get buffer and filetype
 	local buf = vim.bo.buftype
 	local ft = vim.bo.filetype
-	for buftype in lastplace_ignore_buftype do
+	--[[ for buftype in lastplace_ignore_buftype do
 		if buf == buftype then return end
 	end
 	for filetype in lastplace_ignore_filetype do
 		if ft == filetyp then return end
-	end
+	end ]]
 	-- Check if file exists, if so load
 	local file = fn.empty(fn.glob(fn.expand('%@')))
 	if file then
