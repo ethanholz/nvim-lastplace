@@ -13,8 +13,18 @@ vim.fn = vim.fn or setmetatable({}, {
 local function setup()
 	vim.cmd[[autocmd BufWinEnter * lua require'nvim-lastplace'.lastplace_func()]]
 end
-
+local lastplace_ignore_buftype={'quickfix','nofile','help'}
+local lastplace_ignore_filetype={'gitcommit','gitrebase','svn','hgcommit'}
 local function lastplace_func()
+	-- Get buffer and filetype
+	local buf = vim.bo.buftype
+	local ft = vim.bo.filetype
+	for buftype in lastplace_ignore_buftype do
+		if buf == buftype then return end
+	end
+	for filetype in lastplace_ignore_filetype do
+		if ft == filetyp then return end
+	end
 	-- Check if file exists, if so load
 	local file = fn.empty(fn.glob(fn.expand('%@')))
 	if file then
