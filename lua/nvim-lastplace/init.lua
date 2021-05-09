@@ -18,11 +18,11 @@ local function lastplace_func()
 	-- Check if file exists, if so load
 	local file = fn.empty(fn.glob(fn.expand('%@')))
 	if file then
-		if fn.line("'\"") > 0 and fn.line("'\"") <= fn.line("$") then
+		if fn.line([['"]]) > 0 and fn.line([['"]]) <= fn.line("$") then
 			if fn.line("w$") == fn.line("$") then
-				vim.api.nvim_command('normal! g`\"')
-			elseif fn.line("$") - fn.line("'\"") > ((fn.line("w$") - fn.line("w0")) / 2) - 1 then
-				vim.api.nvim_command('normal! g`\"zz')
+				vim.api.nvim_command([[normal! g`\"]])
+			elseif fn.line("$") - fn.line([['\"]]) > ((fn.line("w$") - fn.line("w0")) / 2) - 1 then
+				vim.api.nvim_command([[normal! g`\"zz]])
 			else
 				vim.api.nvim_command([[normal! \G'\"\<c-e>]])
 			end
