@@ -22,4 +22,4 @@ require'nvim-lastplace'.setup{}
 ## TO-DO
 - [x] Port base framework
 - [x] Add autocommand support
-- [ ] Added git message functionality
+- [x] Added git message functionality
