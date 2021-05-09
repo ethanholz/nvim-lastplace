@@ -23,3 +23,5 @@ require'nvim-lastplace'.setup{}
 - [x] Port base framework
 - [x] Add autocommand support
 - [x] Added git message functionality
+- [ ] Fold support
+- [ ] Extensible option support
