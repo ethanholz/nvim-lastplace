@@ -22,12 +22,9 @@ local function lastplace_func()
 	for i,v in ipairs(lastplace_ignore_buftype) do
 		if v == buf then return end
 	end
-	--[[ for buftype in lastplace_ignore_buftype do
-		if buf == buftype then return end
+	for i,v in ipairs(lastplace_ignore_filetype) do
+		if v == ft then return end
 	end
-	for filetype in lastplace_ignore_filetype do
-		if ft == filetyp then return end
-	end ]]
 	-- Check if file exists, if so load
 	local file = fn.empty(fn.glob(fn.expand('%@')))
 	if file then
