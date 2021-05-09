@@ -13,8 +13,11 @@ vim.fn = vim.fn or setmetatable({}, {
 local function setup()
 	vim.cmd[[autocmd BufWinEnter * lua require'nvim-lastplace'.lastplace_func()]]
 end
+-- Default options for ignored buffer and filetypes
+-- TO-DO: implement extensibility to edit these using config in setup
 local lastplace_ignore_buftype={'quickfix','nofile','help'}
 local lastplace_ignore_filetype={'gitcommit','gitrebase','svn','hgcommit'}
+
 local function lastplace_func()
 	-- Get buffer and filetype
 	local buf = vim.bo.buftype
