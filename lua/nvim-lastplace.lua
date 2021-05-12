@@ -1,4 +1,4 @@
-local t = require('nvim-lastplace'):new()
+local t = require('nvim-lastplace.utils'):new()
 
 local M = {}
 
