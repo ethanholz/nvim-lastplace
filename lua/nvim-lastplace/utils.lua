@@ -21,10 +21,10 @@ function utils.lastplace_func()
 	-- Get buffer and filetype
 	local buf = vim.bo.buftype
 	local ft = vim.bo.filetype
-	for i,v in ipairs(self.config.lastplace_ignore_buftype) do
+	for i,v in ipairs(self.lastplace_ignore_buftype) do
 		if v == buf then return end
 	end
-	for i,v in ipairs(self.config.lastplace_ignore_filetype) do
+	for i,v in ipairs(self.lastplace_ignore_filetype) do
 		if v == ft then return end
 	end
 	-- Check if file exists, if so load
