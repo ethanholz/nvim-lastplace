@@ -13,6 +13,7 @@ end
 function utils:setup(opts)
 	self.config = U.create_config(opts)
 	cmd[[autocmd BufWinEnter * lua require'nvim-lastplace.utils'.lastplace_func()]]
+	return self
 
 end
 
