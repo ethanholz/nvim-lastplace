@@ -11,8 +11,8 @@ function U.create_config(opts)
 	end
 
 	return {
-		lastplace_ignore_filetype = opts.lastplace_ignore_filetype or cmd.lastplace_ignore_filetype,
-		lastplace_ignore_buftype = opts.lastplace_ignore_buftype or cmd.lastplace_ignore_buftype
+		lastplace_ignore_filetype = opts.lastplace_ignore_filetype or O.lastplace_ignore_filetype,
+		lastplace_ignore_buftype = opts.lastplace_ignore_buftype or O.lastplace_ignore_buftype
 	}
 end
 
