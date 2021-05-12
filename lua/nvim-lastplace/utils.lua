@@ -21,7 +21,8 @@ function utils.lastplace_func()
 	-- Get buffer and filetype
 	local buf = vim.bo.buftype
 	local ft = vim.bo.filetype
-	for i,v in ipairs(self.lastplace_ignore_buftype) do
+	local buftypes = self.config.lastplace_ignore_buftype
+	for i,v in ipairs(buftypes) do
 		if v == buf then return end
 	end
 	for i,v in ipairs(self.lastplace_ignore_filetype) do
