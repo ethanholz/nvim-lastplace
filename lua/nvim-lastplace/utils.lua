@@ -17,7 +17,7 @@ function utils:setup(opts)
 
 end
 
-function utils.lastplace_func()
+function utils:lastplace_func()
 	-- Get buffer and filetype
 	local buf = vim.bo.buftype
 	local ft = vim.bo.filetype
