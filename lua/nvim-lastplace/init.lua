@@ -6,10 +6,15 @@ function lastplace:setup(options)
 	lastplace.options = options	
 	lastplace:set_option("lastplace_ignore_buftype",{'quickfix','nofile','help'})
 	lastplace:set_option("lastplace_ignore_filetype",{'gitcommit','gitrebase','svn','hgcommit'})
+	lastplace:set_option("lastplace_open_folds", 1)
 	vim.cmd[[autocmd BufWinEnter * lua require'nvim-lastplace'.lastplace_func()]]
 end
 
 function lastplace:set_option(option,default)
+	-- Coalesce boolean options to integer 0 or 1
+    	if type(lastplace.options[option]) == "boolean" then
+        	lastplace.options[option] = lastplace.options[option] and 1 or 0
+    	end
 	-- Set option to either the option value or the default
 	lastplace.options[option] = lastplace.options[option] or default
 end
@@ -39,6 +44,9 @@ function lastplace:lastplace_func()
 			else
 				vim.api.nvim_command([[normal! G'"<c-e>]])
 			end
+		end
+		if fn.foldclosed(".") ~= -1 and lastplace.options.lastplace_open_folds == 1 then
+			vim.api.nvim_command([[normal! zvzz]])
 		end
 	end
 end
