@@ -1,31 +1,27 @@
 local fn = vim.fn
+local lastplace = {}
 
-vim.fn = vim.fn or setmetatable({}, {
-  __index = function(t, key)
-    local function _fn(...)
-      return vim.api.nvim_call_function(key, { ... })
-    end
-    t[key] = _fn
-    return _fn
-  end,
-})
-
-local function setup()
+function lastplace:setup(options)
+	options = options or {}
+	lastplace.options = options	
+	lastplace:set_option("lastplace_ignore_buftype",{'quickfix','nofile','help'})
+	lastplace:set_option("lastplace_ignore_filetype",{'gitcommit','gitrebase','svn','hgcommit'})
 	vim.cmd[[autocmd BufWinEnter * lua require'nvim-lastplace'.lastplace_func()]]
 end
--- Default options for ignored buffer and filetypes
--- TO-DO: implement extensibility to edit these using config in setup
-local lastplace_ignore_buftype={'quickfix','nofile','help'}
-local lastplace_ignore_filetype={'gitcommit','gitrebase','svn','hgcommit'}
 
-local function lastplace_func()
+function lastplace:set_option(option,default)
+	-- Set option to either the option value or the default
+	lastplace.options[option] = lastplace.options[option] or default
+end
+
+function lastplace:lastplace_func()
 	-- Get buffer and filetype
 	local buf = vim.bo.buftype
 	local ft = vim.bo.filetype
-	for i,v in ipairs(lastplace_ignore_buftype) do
+	for i,v in ipairs(lastplace.options.lastplace_ignore_buftype) do
 		if v == buf then return end
 	end
-	for i,v in ipairs(lastplace_ignore_filetype) do
+	for i,v in ipairs(lastplace.options.lastplace_ignore_filetype) do
 		if v == ft then return end
 	end
 	-- Check if file exists, if so load
@@ -47,7 +43,4 @@ local function lastplace_func()
 	end
 end
 
-return {
-	setup = setup,
-	lastplace_func = lastplace_func
-}
+return lastplace
