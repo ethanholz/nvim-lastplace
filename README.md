@@ -18,10 +18,17 @@ Then add the following to your init.lua:
 ```lua
 require'nvim-lastplace'.setup{}
 ```
+You may set options using the following:
+```lua
+require'nvim-lastplace'.setup{}
+  "lastplace_ignore_buftype"  = {"quickfix","nofile","help"},
+  "lastplace_ignore_filetype" = {"gitcommit","gitrebase","svn","hgcommit"}
+}
+```
 
 ## TO-DO
 - [x] Port base framework
 - [x] Add autocommand support
 - [x] Added git message functionality
 - [ ] Fold support
-- [ ] Extensible option support
+- [x] Extensible option support
