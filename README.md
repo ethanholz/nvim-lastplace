@@ -20,7 +20,7 @@ require'nvim-lastplace'.setup{}
 ```
 You may set options using the following:
 ```lua
-require'nvim-lastplace'.setup{]
+require'nvim-lastplace'.setup{}
   "lastplace_ignore_buftype"  = "quickfix,nofile,help",
   "lastplace_ignore_filetype" = "gitcommit,gitrebase,svn,hgcommit"
 }
