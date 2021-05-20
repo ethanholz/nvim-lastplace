@@ -9,15 +9,8 @@ function utils:new()
 	self.__index = self
     	return setmetatable(config, self)
 end
-
-function utils:setup(opts)
-	self.config = U.create_config(opts)
-	cmd[[autocmd BufWinEnter * lua require'nvim-lastplace.utils'.lastplace_func()]]
-	return self
-
-end
-
 function utils:lastplace_func()
+	print(self.config.lastplace_ignore_buftype[1])
 	-- Get buffer and filetype
 	local buf = vim.bo.buftype
 	local ft = vim.bo.filetype
@@ -46,5 +39,13 @@ function utils:lastplace_func()
 		end
 	end
 end
+
+function utils:setup(opts)
+	self.config = U.create_config()
+	cmd[[autocmd BufWinEnter * lua require'nvim-lastplace.utils':lastplace_func()]]
+	return self
+
+end
+
 
 return utils
