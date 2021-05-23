@@ -23,15 +23,14 @@ function lastplace:set_option(option,default)
 end
 
 function lastplace:lastplace_func()
-	-- Get buffer and filetype
-	local buf = vim.bo.buftype
-	local ft = vim.bo.filetype
-	for i,v in ipairs(lastplace.options.lastplace_ignore_buftype) do
-		if v == buf then return end
+	-- Check if buffer should be ignored
+	if vim.tbl_contains(lastplace.options.lastplace_ignore_buftype,
+			vim.api.nvim_buf_get_option(0, 'buftype')) or
+		vim.tbl_contains(lastplace.options.lastplace_ignore_filetype,
+			vim.api.nvim_buf_get_option(0, 'filetype')) then
+		return
 	end
-	for i,v in ipairs(lastplace.options.lastplace_ignore_filetype) do
-		if v == ft then return end
-	end
+
 	-- If the last line is set and the less than the last line in the buffer
 	if fn.line([['"]]) > 0 and fn.line([['"]]) <= fn.line("$") then
 		--Check if the last line of the buffer is the same as the window 
