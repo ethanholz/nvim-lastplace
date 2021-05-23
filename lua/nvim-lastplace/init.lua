@@ -1,25 +1,25 @@
 local fn = vim.fn
 local lastplace = {}
 
-function lastplace:setup(options)
-	options = options or {}
-	lastplace.options = options
-	lastplace:set_option("lastplace_ignore_buftype",{'quickfix','nofile','help'})
-	lastplace:set_option("lastplace_ignore_filetype",{'gitcommit','gitrebase','svn','hgcommit'})
-	lastplace:set_option("lastplace_open_folds", 1)
-	vim.cmd[[augroup NvimLastplace]]
-	vim.cmd[[  autocmd!]]
-	vim.cmd[[  autocmd BufReadPost * lua require'nvim-lastplace'.lastplace_func()]]
-	vim.cmd[[augroup end]]
-end
-
-function lastplace:set_option(option,default)
+local function set_option(option,default)
 	-- Coalesce boolean options to integer 0 or 1
     	if type(lastplace.options[option]) == "boolean" then
         	lastplace.options[option] = lastplace.options[option] and 1 or 0
     	end
 	-- Set option to either the option value or the default
 	lastplace.options[option] = lastplace.options[option] or default
+end
+
+function lastplace:setup(options)
+	options = options or {}
+	lastplace.options = options
+	set_option("lastplace_ignore_buftype",{'quickfix','nofile','help'})
+	set_option("lastplace_ignore_filetype",{'gitcommit','gitrebase','svn','hgcommit'})
+	set_option("lastplace_open_folds", 1)
+	vim.cmd[[augroup NvimLastplace]]
+	vim.cmd[[  autocmd!]]
+	vim.cmd[[  autocmd BufReadPost * lua require'nvim-lastplace'.lastplace_func()]]
+	vim.cmd[[augroup end]]
 end
 
 function lastplace:lastplace_func()
