@@ -10,7 +10,7 @@ local function set_option(option,default)
 	lastplace.options[option] = lastplace.options[option] or default
 end
 
-function lastplace:setup(options)
+function lastplace.setup(options)
 	options = options or {}
 	lastplace.options = options
 	set_option("lastplace_ignore_buftype",{'quickfix','nofile','help'})
@@ -22,7 +22,7 @@ function lastplace:setup(options)
 	vim.cmd[[augroup end]]
 end
 
-function lastplace:lastplace_func()
+function lastplace.lastplace_func()
 	-- Check if buffer should be ignored
 	if vim.tbl_contains(lastplace.options.lastplace_ignore_buftype,
 			vim.api.nvim_buf_get_option(0, 'buftype')) or
