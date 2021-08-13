@@ -31,6 +31,12 @@ function lastplace.lastplace_func()
 		return
 	end
 
+	-- If a line has already been specified on the command line, we are done
+	--   nvim file +num
+	if fn.line('.') > 1 then
+		return
+	end
+
 	-- If the last line is set and the less than the last line in the buffer
 	if fn.line([['"]]) > 0 and fn.line([['"]]) <= fn.line("$") then
 		-- Check if the last line of the buffer is the same as the window
