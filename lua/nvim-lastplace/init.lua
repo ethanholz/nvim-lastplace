@@ -33,7 +33,7 @@ function lastplace.lastplace_func()
 
 	-- If a line has already been specified on the command line, we are done
 	--   nvim file +num
-	if fn.line('.') > 1 then
+	if fn.line(".") > 1 then
 		return
 	end
 
