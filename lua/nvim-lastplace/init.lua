@@ -49,7 +49,7 @@ function lastplace.lastplace_buf()
 		return
 	end
 
-    -- Check if the buffer should be ignored
+	-- Check if the buffer should be ignored
 	if vim.tbl_contains(lastplace.options.lastplace_ignore_buftype, vim.api.nvim_buf_get_option(0, "buftype")) then
 		return
 	end
@@ -58,7 +58,7 @@ function lastplace.lastplace_buf()
 end
 
 function lastplace.lastplace_ft()
-    -- Check if the buffer should be ignored
+	-- Check if the buffer should be ignored
 	if vim.tbl_contains(lastplace.options.lastplace_ignore_buftype, vim.api.nvim_buf_get_option(0, "buftype")) then
 		return
 	end
@@ -76,7 +76,7 @@ function lastplace.lastplace_ft()
 		return
 	end
 
-    -- This shouldn't be reached but, better have it ;-)
+	-- This shouldn't be reached but, better have it ;-)
 	set_cursor_position()
 end
 
