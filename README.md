@@ -27,11 +27,11 @@ require'nvim-lastplace'.setup {
 }
 ```
 
-For those of you still using Vimscript to configure your init.vim
+For those of you still using Vimscript to configure your init.vim:
 ```vim
 lua require'nvim-lastplace'.setup{}
 ```
-You can now set options using
+You can now set options using:
 ```vim
 let g:lastplace_ignore_buftype = "quickfix,nofile,help"
 let g:lastplace_ignore_filetype = "gitcommit,gitrebase,svn,hgcommit"
