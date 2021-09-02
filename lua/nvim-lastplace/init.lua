@@ -1,13 +1,25 @@
 local fn = vim.fn
 local lastplace = {}
 
+local function split_on_comma(str)
+	local ret_tab = {}
+	if str == nil then
+		return nil
+	end
+	for word in string.gmatch(str, "([^,]+)") do
+		table.insert(ret_tab, word)
+	end
+	return ret_tab
+end
+
 local function set_option(option, default)
 	-- Coalesce boolean options to integer 0 or 1
 	if type(lastplace.options[option]) == "boolean" then
 		lastplace.options[option] = lastplace.options[option] and 1 or 0
 	end
+
 	-- Set option to either the option value or the default
-	lastplace.options[option] = lastplace.options[option] or default
+	lastplace.options[option] = lastplace.options[option] or split_on_comma(vim.g[option]) or default
 end
 
 function lastplace.setup(options)
