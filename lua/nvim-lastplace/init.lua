@@ -34,7 +34,19 @@ function lastplace.setup(options)
 	vim.cmd([[augroup end]])
 end
 
-local set_cursor_position = function()
+function lastplace.lastplace()
+	-- Check if the buffer should be ignored
+	if vim.tbl_contains(lastplace.options.lastplace_ignore_buftype, vim.api.nvim_buf_get_option(0, "buftype")) then
+		return
+	end
+
+	-- Check if the filetype should be ignored
+	if vim.tbl_contains(lastplace.options.lastplace_ignore_filetype, vim.api.nvim_buf_get_option(0, "filetype")) then
+		-- reset cursor to first line
+		vim.api.nvim_command([[normal! gg]])
+		return
+	end
+
 	-- If the last line is set and the less than the last line in the buffer
 	if fn.line([['"]]) > 0 and fn.line([['"]]) <= fn.line("$") then
 		-- Check if the last line of the buffer is the same as the window
@@ -51,23 +63,6 @@ local set_cursor_position = function()
 	if fn.foldclosed(".") ~= -1 and lastplace.options.lastplace_open_folds == 1 then
 		vim.api.nvim_command([[normal! zvzz]])
 	end
-end
-
-function lastplace.lastplace()
-	-- Check if the buffer should be ignored
-	if vim.tbl_contains(lastplace.options.lastplace_ignore_buftype, vim.api.nvim_buf_get_option(0, "buftype")) then
-		return
-	end
-
-	-- Check if the filetype should be ignored
-	if vim.tbl_contains(lastplace.options.lastplace_ignore_filetype, vim.api.nvim_buf_get_option(0, "filetype")) then
-		-- reset cursor to first line
-		vim.api.nvim_command([[normal! gg]])
-		return
-	end
-
-	-- This shouldn't be reached but, better have it ;-)
-	set_cursor_position()
 end
 
 return lastplace
