@@ -39,7 +39,7 @@ local set_cursor_position = function()
 	local last_line = fn.line([['"]])
 	local buff_last_line = fn.line("$")
 	local window_last_line = fn.line("w$")
-	local window_first_line = fn.line("w0")
+    local window_first_line = fn.line("w0")
 	-- If the last line is set and the less than the last line in the buffer
 	if last_line > 0 and last_line <= buff_last_line then
 		-- Check if the last line of the buffer is the same as the window
