@@ -30,8 +30,10 @@ function lastplace.setup(options)
 	set_option("lastplace_open_folds", 1)
 	vim.cmd([[augroup NvimLastplace]])
 	vim.cmd([[  autocmd!]])
-	vim.cmd([[  autocmd BufRead * lua require('nvim-lastplace').lastplace_buf()]])
-	vim.cmd([[  autocmd VimEnter * lua require('nvim-lastplace').lastplace_ft()]])
+	vim.cmd([[  autocmd BufWinEnter * lua require('nvim-lastplace').lastplace_buf()]])
+	if fn.has("nvim-0.5.1") == 0 then
+		vim.cmd([[  autocmd FileType * lua require('nvim-lastplace').lastplace_ft()]])
+	end
 	vim.cmd([[augroup end]])
 end
 
@@ -64,11 +66,15 @@ function lastplace.lastplace_buf()
 		return
 	end
 
-	-- Check if the filetype should be ignored
-	if vim.tbl_contains(lastplace.options.lastplace_ignore_filetype, vim.api.nvim_buf_get_option(0, "filetype")) then
-		-- reset cursor to first line
-		vim.api.nvim_command([[normal! gg]])
-		return
+	if fn.has("nvim-0.5.1") == 1 then
+		-- Check if the filetype should be ignored
+		if
+			vim.tbl_contains(lastplace.options.lastplace_ignore_filetype, vim.api.nvim_buf_get_option(0, "filetype"))
+		then
+			-- reset cursor to first line
+			vim.api.nvim_command([[normal! gg]])
+			return
+		end
 	end
 
 	-- If a line has already been specified on the command line, we are done
