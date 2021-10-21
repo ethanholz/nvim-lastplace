@@ -30,10 +30,7 @@ function lastplace.setup(options)
 	set_option("lastplace_open_folds", 1)
 	vim.cmd([[augroup NvimLastplace]])
 	vim.cmd([[  autocmd!]])
-	vim.cmd([[  autocmd BufReadPost * lua require('nvim-lastplace').lastplace_buf()]])
-	if fn.has('nvim-0.5.1') == 0 then
-		vim.cmd([[  autocmd FileType * lua require('nvim-lastplace').lastplace_ft()]])
-	end
+	vim.cmd([[  autocmd VimEnter,BufRead * lua require('nvim-lastplace').lastplace()]])
 	vim.cmd([[augroup end]])
 end
 
@@ -56,31 +53,7 @@ local set_cursor_position = function()
 	end
 end
 
-function lastplace.lastplace_buf()
-	-- Check if the buffer should be ignored
-	if vim.tbl_contains(lastplace.options.lastplace_ignore_buftype, vim.api.nvim_buf_get_option(0, "buftype")) then
-		return
-	end
-
-	if fn.has('nvim-0.5.1') == 1 then
-		-- Check if the filetype should be ignored
-		if vim.tbl_contains(lastplace.options.lastplace_ignore_filetype, vim.api.nvim_buf_get_option(0, "filetype")) then
-			-- reset cursor to first line
-			vim.api.nvim_command([[normal! gg]])
-			return
-		end
-	end
-
-	-- If a line has already been specified on the command line, we are done
-	--   nvim file +num
-	if fn.line(".") > 1 then
-		return
-	end
-
-	set_cursor_position()
-end
-
-function lastplace.lastplace_ft()
+function lastplace.lastplace()
 	-- Check if the buffer should be ignored
 	if vim.tbl_contains(lastplace.options.lastplace_ignore_buftype, vim.api.nvim_buf_get_option(0, "buftype")) then
 		return
@@ -90,12 +63,6 @@ function lastplace.lastplace_ft()
 	if vim.tbl_contains(lastplace.options.lastplace_ignore_filetype, vim.api.nvim_buf_get_option(0, "filetype")) then
 		-- reset cursor to first line
 		vim.api.nvim_command([[normal! gg]])
-		return
-	end
-
-	-- If a line has already been set by the BufReadPost event or on the command
-	-- line, we are done.
-	if fn.line(".") > 1 then
 		return
 	end
 
