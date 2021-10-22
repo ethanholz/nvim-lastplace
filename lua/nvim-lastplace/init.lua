@@ -30,7 +30,7 @@ function lastplace.setup(options)
 	set_option("lastplace_open_folds", 1)
 	vim.cmd([[augroup NvimLastplace]])
 	vim.cmd([[  autocmd!]])
-	vim.cmd([[  autocmd VimEnter,BufRead * lua require('nvim-lastplace').lastplace()]])
+	vim.cmd([[  autocmd BufWinEnter * lua require('nvim-lastplace').lastplace()]])
 	vim.cmd([[augroup end]])
 end
 
