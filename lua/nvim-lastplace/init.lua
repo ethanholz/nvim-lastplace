@@ -30,13 +30,8 @@ function lastplace.setup(options)
 	set_option("lastplace_open_folds", 1)
 	vim.cmd([[augroup NvimLastplace]])
 	vim.cmd([[  autocmd!]])
-<<<<<<< HEAD
 	vim.cmd([[  autocmd BufWinEnter * lua require('nvim-lastplace').lastplace_buf()]])
 	if fn.has("nvim-0.5.1") == 0 then
-=======
-	vim.cmd([[  autocmd BufReadPost * lua require('nvim-lastplace').lastplace_buf()]])
-	if fn.has('nvim-0.5.1') == 0 then
->>>>>>> parent of 718f728 (Switched to BufWinEnter)
 		vim.cmd([[  autocmd FileType * lua require('nvim-lastplace').lastplace_ft()]])
 	end
 	vim.cmd([[augroup end]])
