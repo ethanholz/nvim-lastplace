@@ -31,7 +31,7 @@ function lastplace.setup(options)
 	vim.cmd([[augroup NvimLastplace]])
 	vim.cmd([[  autocmd!]])
 	vim.cmd([[  autocmd BufReadPost * lua require('nvim-lastplace').lastplace_buf()]])
-	if fn.has('nvim-0.5.1') == 0 then
+	if fn.has('nvim-0.5.1') == 1 then
 		vim.cmd([[  autocmd FileType * lua require('nvim-lastplace').lastplace_ft()]])
 	end
 	vim.cmd([[augroup end]])
