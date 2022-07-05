@@ -23,7 +23,7 @@ local function set_option(option, default)
 end
 
 local function check_version(major, minor, patch)
-	version = vim.version()
+	local version = vim.version()
 	return version.major >= major and version.minor >= minor and patch >= version.patch
 end
 
@@ -33,10 +33,9 @@ function lastplace.setup(options)
 	set_option("lastplace_ignore_buftype", { "quickfix", "nofile", "help" })
 	set_option("lastplace_ignore_filetype", { "gitcommit", "gitrebase", "svn", "hgcommit" })
 	set_option("lastplace_open_folds", 1)
-	version = vim.version()
 	if check_version(0, 7, 0) then
-		group_name = "NvimLastplace"
-		vim.api.nvim_create_augroup(group_name, { clear = False })
+		local group_name = "NvimLastplace"
+		vim.api.nvim_create_augroup(group_name, { clear = true })
 		vim.api.nvim_create_autocmd("BufWinEnter", { callback = lastplace.lastplace_buf, group = group_name })
 		vim.api.nvim_create_autocmd("FileType", { callback = lastplace.lastplace_buf, group = group_name })
 	else
