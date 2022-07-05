@@ -37,11 +37,3 @@ let g:lastplace_ignore_buftype = "quickfix,nofile,help"
 let g:lastplace_ignore_filetype = "gitcommit,gitrebase,svn,hgcommit"
 let g:lastplace_open_folds = 1
 ```
-
-## TO-DO
-- [x] Port base framework
-- [x] Add autocommand support
-- [x] Added git message functionality
-- [x] Fold support
-- [x] Extensible option support
-- [x] Added traditional config option
