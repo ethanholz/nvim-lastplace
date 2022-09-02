@@ -24,7 +24,7 @@ end
 
 local function check_version(major, minor, patch)
 	local version = vim.version()
-	return version.major >= major and version.minor >= minor and patch >= version.patch
+	return version.major * 1000 + version.minor * 1000 + version.patch * 1000 > major * 1000 + minor * 1000 + patch * 1000
 end
 
 function lastplace.setup(options)
