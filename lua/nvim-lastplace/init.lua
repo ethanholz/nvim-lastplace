@@ -24,7 +24,32 @@ end
 
 local function check_version(major, minor, patch)
 	local version = vim.version()
-	return version.major >= major and version.minor >= minor and patch >= version.patch
+
+	if version.major > major then
+		return true
+	end
+	if version.major < major then
+		return false
+	end
+
+    -- major version matches
+	if version.minor > minor then
+		return true
+	end
+	if version.minor < minor then
+		return false
+	end
+
+    -- minor version matches
+	if version.patch > patch then
+		return true
+	end
+	if version.patch < patch then
+		return false
+	end
+
+	-- exact version match
+	return true
 end
 
 function lastplace.setup(options)
@@ -80,7 +105,6 @@ function lastplace.lastplace_buf()
 	end
 
 	if check_version(0, 5, 1) then
-		-- if fn.has("nvim-0.5.1") == 1 then
 		-- Check if the filetype should be ignored
 		if
 			vim.tbl_contains(lastplace.options.lastplace_ignore_filetype, vim.api.nvim_buf_get_option(0, "filetype"))
