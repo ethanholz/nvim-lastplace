@@ -36,8 +36,10 @@ function lastplace.setup(options)
 	if check_version(0, 7, 0) then
 		local group_name = "NvimLastplace"
 		vim.api.nvim_create_augroup(group_name, { clear = true })
-		vim.api.nvim_create_autocmd("BufWinEnter", { callback = lastplace.lastplace_buf, group = group_name })
-		vim.api.nvim_create_autocmd("FileType", { callback = lastplace.lastplace_buf, group = group_name })
+        vim.api.nvim_create_autocmd({"BufRead"}, {
+            callback = lastplace.lastplace_ft,
+            group = group_name
+        })
 	else
 		vim.cmd([[augroup NvimLastplace]])
 		vim.cmd([[  autocmd!]])
