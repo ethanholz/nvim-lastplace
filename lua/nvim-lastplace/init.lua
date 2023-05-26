@@ -22,55 +22,32 @@ local function set_option(option, default)
 	lastplace.options[option] = lastplace.options[option] or split_on_comma(vim.g[option]) or default
 end
 
-local function check_version(major, minor, patch)
-	local version = vim.version()
-
-	if version.major > major then
-		return true
-	end
-	if version.major < major then
-		return false
-	end
-
-    -- major version matches
-	if version.minor > minor then
-		return true
-	end
-	if version.minor < minor then
-		return false
-	end
-
-    -- minor version matches
-	if version.patch > patch then
-		return true
-	end
-	if version.patch < patch then
-		return false
-	end
-
-	-- exact version match
-	return true
-end
-
 function lastplace.setup(options)
 	options = options or {}
 	lastplace.options = options
 	set_option("lastplace_ignore_buftype", { "quickfix", "nofile", "help" })
 	set_option("lastplace_ignore_filetype", { "gitcommit", "gitrebase", "svn", "hgcommit" })
 	set_option("lastplace_open_folds", 1)
-	if check_version(0, 7, 0) then
+	if vim.fn.has("nvim-0.7") then
 		local group_name = "NvimLastplace"
 		vim.api.nvim_create_augroup(group_name, { clear = true })
-        vim.api.nvim_create_autocmd({"BufRead"}, {
-            callback = lastplace.lastplace_ft,
-            group = group_name
-        })
+		vim.api.nvim_create_autocmd("BufRead", {
+			group = group_name,
+			callback = function(opts)
+				vim.api.nvim_create_autocmd("BufWinEnter", {
+					group = group_name,
+					buffer = opts.buf,
+					callback = function()
+						lastplace.lastplace_ft(opts.buf)
+					end,
+				})
+			end,
+		})
 	else
 		vim.cmd([[augroup NvimLastplace]])
 		vim.cmd([[  autocmd!]])
 		vim.cmd([[  autocmd BufWinEnter * lua require('nvim-lastplace').lastplace_buf()]])
-		if not check_version(0, 5, 1) then
-			-- if fn.has("nvim-0.5.1") == 0 then
+		if not vim.fn.has("nvim-0.5.1") then
 			vim.cmd([[  autocmd FileType * lua require('nvim-lastplace').lastplace_ft()]])
 		end
 		vim.cmd([[augroup end]])
@@ -106,7 +83,7 @@ function lastplace.lastplace_buf()
 		return
 	end
 
-	if check_version(0, 5, 1) then
+	if vim.fn.has("nvim-0.5.1") then
 		-- Check if the filetype should be ignored
 		if
 			vim.tbl_contains(lastplace.options.lastplace_ignore_filetype, vim.api.nvim_buf_get_option(0, "filetype"))
@@ -126,14 +103,16 @@ function lastplace.lastplace_buf()
 	set_cursor_position()
 end
 
-function lastplace.lastplace_ft()
+function lastplace.lastplace_ft(buffer)
 	-- Check if the buffer should be ignored
-	if vim.tbl_contains(lastplace.options.lastplace_ignore_buftype, vim.api.nvim_buf_get_option(0, "buftype")) then
+	if vim.tbl_contains(lastplace.options.lastplace_ignore_buftype, vim.api.nvim_buf_get_option(buffer, "buftype")) then
 		return
 	end
 
 	-- Check if the filetype should be ignored
-	if vim.tbl_contains(lastplace.options.lastplace_ignore_filetype, vim.api.nvim_buf_get_option(0, "filetype")) then
+	if
+		vim.tbl_contains(lastplace.options.lastplace_ignore_filetype, vim.api.nvim_buf_get_option(buffer, "filetype"))
+	then
 		-- reset cursor to first line
 		vim.api.nvim_command([[normal! gg]])
 		return
