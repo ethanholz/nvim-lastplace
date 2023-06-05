@@ -64,12 +64,12 @@ local set_cursor_position = function()
 		-- Check if the last line of the buffer is the same as the window
 		if window_last_line == buff_last_line then
 			-- Set line to last line edited
-			vim.api.nvim_command([[normal! g`"]])
+			vim.api.nvim_command([[keepjumps normal! g`"]])
 			-- Try to center
 		elseif buff_last_line - last_line > ((window_last_line - window_first_line) / 2) - 1 then
-			vim.api.nvim_command([[normal! g`"zz]])
+			vim.api.nvim_command([[keepjumps normal! g`"zz]])
 		else
-			vim.api.nvim_command([[normal! G'"<c-e>]])
+			vim.api.nvim_command([[keepjumps normal! G'"<c-e>]])
 		end
 	end
 	if fn.foldclosed(".") ~= -1 and lastplace.options.lastplace_open_folds == 1 then
