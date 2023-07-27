@@ -1,4 +1,9 @@
-# nvim-lastplace
+# NO LONGER MAINTAINED
+This is plugin is no longer maintained and works well enough for my use case.
+
+Feel free to fork and update as needed.
+
+## nvim-lastplace
 A Lua rewrite of vim-lastplace
 
 Heavily inspired by https://github.com/farmergreg/vim-lastplace
